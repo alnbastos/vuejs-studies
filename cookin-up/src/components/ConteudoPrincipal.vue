@@ -6,16 +6,28 @@ export default {
   components: { SelecionarIngredientes, SuaLista, },
   data() {
     return {
-      ingredientes: ['Alho', 'Manteiga', 'Orégano'],
+      ingredientes: [] as string[],
     }
-  }
+  },
+  methods: {
+    adicionarIngrediente(ingrediente: string) {
+      this.ingredientes.push(ingrediente)
+    },
+    removerIngrediente(ingrediente: string) {
+      var index = this.ingredientes.indexOf(ingrediente);
+      if (index > -1) { this.ingredientes.splice(index, 1); }
+    }
+  },
 }
 </script>
 
 <template>
   <main class="conteudo-principal">
-    <SuaLista :ingredientes="ingredientes"/>
-    <SelecionarIngredientes />
+    <SuaLista :ingredientes="ingredientes" />
+    <SelecionarIngredientes
+      v-on:adicionar-ingrediente="adicionarIngrediente($event)"
+      v-on:remover-ingrediente="removerIngrediente($event)"
+    />
   </main>
 </template>
 

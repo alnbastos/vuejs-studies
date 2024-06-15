@@ -2,19 +2,13 @@
 import { obterCategorias } from '@/http/index';
 import type ICategoria from '@/interfaces/ICategorias';
 import CardCategorias from './CardCategorias.vue';
+import BotaoPrincipal from './BotaoPrincipal.vue';
 
 export default {
-  data() {
-    return {
-      categorias: [] as ICategoria[],
-    }
-  },
-  async created() {
-    this.categorias = await obterCategorias();
-  },
-  components: { 
-    CardCategorias, 
-  },
+  components: { CardCategorias, BotaoPrincipal, },
+  data() { return { categorias: [] as ICategoria[], } },
+  async created() { this.categorias = await obterCategorias(); },
+  emits: ['adicionarIngrediente', 'removerIngrediente', ],
 }
 </script>
 
@@ -28,14 +22,23 @@ export default {
 
     <ul class="categorias">
       <li v-for="categoria in categorias" :key="categoria.nome">
-        <CardCategorias :categoria="categoria"/>
-        <!-- <CardCategorias v-bind:categoria="categoria"/> -->
+        <CardCategorias
+          :categoria="categoria"
+          @adicionar-ingrediente="$emit('adicionarIngrediente', $event)"
+          @remover-ingrediente="$emit('removerIngrediente', $event)"
+        />
+        <!-- <CardCategorias
+          v-bind:categoria="categoria"
+          v-on:adicionar-ingrediente="$emit('adicionarIngrediente', $event)"
+        /> -->
       </li>
     </ul>
 
     <p class="paragrafo dica">
       *Atenção: consideramos que você tem em casa sal, pimenta e água.
     </p>
+
+    <BotaoPrincipal texto="Buscar receitas!"/>
   </section>
 </template>
 
