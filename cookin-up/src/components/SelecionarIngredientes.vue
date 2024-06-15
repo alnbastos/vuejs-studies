@@ -7,7 +7,7 @@ export default {
   components: { CardCategorias, },
   data() { return { categorias: [] as ICategoria[], } },
   async created() { this.categorias = await obterCategorias(); },
-  emits: ['adicionarIngrediente'],
+  emits: ['adicionarIngrediente', 'removerIngrediente', ],
 }
 </script>
 
@@ -24,6 +24,7 @@ export default {
         <CardCategorias
           :categoria="categoria"
           @adicionar-ingrediente="$emit('adicionarIngrediente', $event)"
+          @remover-ingrediente="$emit('removerIngrediente', $event)"
         />
         <!-- <CardCategorias
           v-bind:categoria="categoria"

@@ -12,6 +12,10 @@ export default {
   methods: {
     adicionarIngrediente(ingrediente: string) {
       this.ingredientes.push(ingrediente)
+    },
+    removerIngrediente(ingrediente: string) {
+      var index = this.ingredientes.indexOf(ingrediente);
+      if (index > -1) { this.ingredientes.splice(index, 1); }
     }
   },
 }
@@ -20,7 +24,10 @@ export default {
 <template>
   <main class="conteudo-principal">
     <SuaLista :ingredientes="ingredientes" />
-    <SelecionarIngredientes v-on:adicionar-ingrediente="adicionarIngrediente($event)" />
+    <SelecionarIngredientes
+      v-on:adicionar-ingrediente="adicionarIngrediente($event)"
+      v-on:remover-ingrediente="removerIngrediente($event)"
+    />
   </main>
 </template>
 
