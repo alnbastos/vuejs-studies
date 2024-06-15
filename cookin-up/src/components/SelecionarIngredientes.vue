@@ -4,17 +4,10 @@ import type ICategoria from '@/interfaces/ICategorias';
 import CardCategorias from './CardCategorias.vue';
 
 export default {
-  data() {
-    return {
-      categorias: [] as ICategoria[],
-    }
-  },
-  async created() {
-    this.categorias = await obterCategorias();
-  },
-  components: { 
-    CardCategorias, 
-  },
+  components: { CardCategorias, },
+  data() { return { categorias: [] as ICategoria[], } },
+  async created() { this.categorias = await obterCategorias(); },
+  emits: ['adicionarIngrediente'],
 }
 </script>
 
@@ -28,8 +21,14 @@ export default {
 
     <ul class="categorias">
       <li v-for="categoria in categorias" :key="categoria.nome">
-        <CardCategorias :categoria="categoria"/>
-        <!-- <CardCategorias v-bind:categoria="categoria"/> -->
+        <CardCategorias
+          :categoria="categoria"
+          @adicionar-ingrediente="$emit('adicionarIngrediente', $event)"
+        />
+        <!-- <CardCategorias
+          v-bind:categoria="categoria"
+          v-on:adicionar-ingrediente="$emit('adicionarIngrediente', $event)"
+        /> -->
       </li>
     </ul>
 
