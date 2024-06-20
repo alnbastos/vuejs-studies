@@ -38,7 +38,9 @@ export default {
       @buscar-receitas="navegar('MostrarReceitas')"
     />
 
-    <MostrarReceitas v-else-if="conteudo === 'MostrarReceitas'" />
+    <MostrarReceitas v-else-if="conteudo === 'MostrarReceitas'"
+      @editar-receitas="navegar('SelecionarIngredientes')"
+    />
   </main>
 </template>
 
