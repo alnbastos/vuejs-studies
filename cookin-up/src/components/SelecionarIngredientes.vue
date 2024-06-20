@@ -8,7 +8,7 @@ export default {
   components: { CardCategorias, BotaoPrincipal, },
   data() { return { categorias: [] as ICategoria[], } },
   async created() { this.categorias = await obterCategorias(); },
-  emits: ['adicionarIngrediente', 'removerIngrediente', ],
+  emits: ['adicionarIngrediente', 'removerIngrediente', 'buscarReceitas',],
 }
 </script>
 
@@ -38,7 +38,7 @@ export default {
       *Atenção: consideramos que você tem em casa sal, pimenta e água.
     </p>
 
-    <BotaoPrincipal texto="Buscar receitas!"/>
+    <BotaoPrincipal texto="Buscar receitas!" v-on:click="$emit('buscarReceitas')"/>
   </section>
 </template>
 
