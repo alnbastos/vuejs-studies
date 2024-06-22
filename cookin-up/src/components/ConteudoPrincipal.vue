@@ -32,15 +32,16 @@ export default {
   <main class="conteudo-principal">
     <SuaLista :ingredientes="ingredientes" />
     
-    <SelecionarIngredientes v-if="conteudo === 'SelecionarIngredientes'"
-      v-on:adicionar-ingrediente="adicionarIngrediente($event)"
-      v-on:remover-ingrediente="removerIngrediente($event)"
-      @buscar-receitas="navegar('MostrarReceitas')"
-    />
-
-    <MostrarReceitas v-else-if="conteudo === 'MostrarReceitas'"
-      @editar-receitas="navegar('SelecionarIngredientes')"
-    />
+    <KeepAlive include="SelecionarIngredientes">
+      <SelecionarIngredientes v-if="conteudo === 'SelecionarIngredientes'"
+        v-on:adicionar-ingrediente="adicionarIngrediente($event)"
+        v-on:remover-ingrediente="removerIngrediente($event)"
+        @buscar-receitas="navegar('MostrarReceitas')"
+      />
+      <MostrarReceitas v-else-if="conteudo === 'MostrarReceitas'"
+        @editar-receitas="navegar('SelecionarIngredientes')"
+      />
+    </KeepAlive>
   </main>
 </template>
 
