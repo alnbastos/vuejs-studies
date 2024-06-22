@@ -39,6 +39,7 @@ export default {
         @buscar-receitas="navegar('MostrarReceitas')"
       />
       <MostrarReceitas v-else-if="conteudo === 'MostrarReceitas'"
+        v-bind:ingredientes="ingredientes"
         @editar-receitas="navegar('SelecionarIngredientes')"
       />
     </KeepAlive>
