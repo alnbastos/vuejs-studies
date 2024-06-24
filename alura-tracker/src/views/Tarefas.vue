@@ -7,7 +7,7 @@ import ITarefa from "../interfaces/ITarefa";
 
 export default defineComponent({
   // Nome do componente.
-  name: "App",
+  name: "TarefasTracker",
 
   // Componentes filho.
   components: {
