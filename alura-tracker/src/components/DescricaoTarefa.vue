@@ -17,7 +17,7 @@
 import { PropType, defineComponent } from "vue";
 import CronometroTarefa from "./CronometroTarefa.vue";
 import BoxListaTarefa from "./BoxListaTarefa.vue";
-import ITarefa from "@/intefaces/ITarefa";
+import ITarefa from "@/interfaces/ITarefa";
 
 export default defineComponent({
   // Nome do componente.
