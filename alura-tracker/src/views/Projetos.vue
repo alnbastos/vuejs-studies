@@ -1,24 +1,26 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-import IProjeto from "@/interfaces/IProjetos";
+import { computed, defineComponent } from "vue";
+import { useStore } from "@/store";
 
 export default defineComponent({
   name: "ProjetosTracker",
   data() {
-    return { 
-      nomeDoProjeto: "",
-      projetos: [] as IProjeto[],
+    return {
+      nomeProjeto: "",
+    }
+  },
+  setup() {
+    const store = useStore();
+    return {
+      store,
+      projetos: computed(() => store.state.projetos),
     }
   },
   methods: {
     salvar() {
       // Salvar o nome do projeto
-      const projeto: IProjeto = {
-        id: new Date().toISOString(),
-        nome: this.nomeDoProjeto,
-      };
-      this.projetos.push(projeto);
-      this.nomeDoProjeto = "";
+      this.store.commit("ADICIONA_PROJETO", this.nomeProjeto);
+      this.nomeProjeto = "";
     }
   }
 });
@@ -30,8 +32,8 @@ export default defineComponent({
 
     <form @submit.prevent="salvar">
       <div class="field">
-        <label for="nomeDoProjeto" class="label">Nome do Projeto</label>
-        <input type="text" class="input" v-model="nomeDoProjeto" id="nomedoProjeto" />
+        <label for="nomeProjeto" class="label">Nome do Projeto</label>
+        <input type="text" class="input" v-model="nomeProjeto" id="nomeProjeto" />
       </div>
 
       <div class="field">
