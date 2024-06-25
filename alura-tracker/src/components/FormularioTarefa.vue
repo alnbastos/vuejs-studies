@@ -23,8 +23,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
-import { key } from "@/store";
+import { useStore } from "@/store";
 import TemporizadorTarefa from "./TemporizadorTarefa.vue";
 
 export default defineComponent({
@@ -68,7 +67,7 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore(key);
+    const store = useStore();
     return {
       projetos: computed(() => store.state.projetos)
     }
