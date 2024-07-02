@@ -4,25 +4,12 @@ import { useStore } from "@/store";
 
 export default defineComponent({
   name: "ProjetosTracker",
-  data() {
-    return {
-      nomeProjeto: "",
-    }
-  },
   setup() {
     const store = useStore();
     return {
-      store,
       projetos: computed(() => store.state.projetos),
     }
   },
-  methods: {
-    salvar() {
-      // Salvar o nome do projeto
-      this.store.commit("ADICIONA_PROJETO", this.nomeProjeto);
-      this.nomeProjeto = "";
-    }
-  }
 });
 </script>
 
@@ -30,31 +17,36 @@ export default defineComponent({
   <section class="projetos">
     <h1>Projetos</h1>
 
-    <form @submit.prevent="salvar">
-      <div class="field">
-        <label for="nomeProjeto" class="label">Nome do Projeto</label>
-        <input type="text" class="input" v-model="nomeProjeto" id="nomeProjeto" />
-      </div>
-
-      <div class="field">
-        <button class="button" type="submit">Salvar</button>
-      </div>
-    </form>
+    <router-link to="/projetos/criar" class="button">
+      <span class="icon is-small">
+        <i class="fas fas-plus"></i>
+      </span>
+      <span>Novo projeto</span>
+    </router-link>
 
     <table class="table is-fullwidth">
       <thead>
         <tr>
           <th>ID</th>
           <th>Nome</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="projeto in projetos" :key="projeto.id">
           <td>{{ projeto.id }}</td>
           <td>{{ projeto.nome }}</td>
+          <th>
+            <router-link :to="`/projetos/${projeto.id}`" class="button">
+              <span class="icon is-small">
+                <i class="fas fas-pencil-alt"></i>
+              </span>
+            </router-link>
+          </th>
         </tr>
       </tbody>
     </table>
+
   </section>
 </template>
 
