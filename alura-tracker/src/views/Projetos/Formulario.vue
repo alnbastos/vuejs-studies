@@ -4,6 +4,16 @@ import { useStore } from "@/store";
 
 export default defineComponent({
   name: "FormularioProjetos",
+  props: {
+    id: { type: String }
+  },
+  mounted() {
+    // Quando o componente estiver montado...
+    if (this.id) {
+      const projeto = this.store.state.projetos.find(proj => proj.id == this.id);
+      this.nomeProjeto = projeto?.nome || "";
+    }
+  },
   data() {
     return {
       nomeProjeto: "",
@@ -15,8 +25,13 @@ export default defineComponent({
   },
   methods: {
     salvar() {
-      // Salvar o nome do projeto
-      this.store.commit("ADICIONA_PROJETO", this.nomeProjeto);
+      if (this.id) {
+        // Editar o nome do projeto
+        this.store.commit("ALTERA_PROJETO", { id: this.id, nome: this.nomeProjeto });
+      } else {
+        // Salvar o nome do projeto
+        this.store.commit("ADICIONA_PROJETO", this.nomeProjeto);
+      }
       this.nomeProjeto = "";
       this.$router.push("/projetos");
     }
