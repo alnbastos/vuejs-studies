@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store";
+import { ALTERA_PROJETO, ADICIONA_PROJETO } from "@/store/type-mutations";
 
 export default defineComponent({
   name: "FormularioProjetos",
@@ -27,10 +28,10 @@ export default defineComponent({
     salvar() {
       if (this.id) {
         // Editar o nome do projeto
-        this.store.commit("ALTERA_PROJETO", { id: this.id, nome: this.nomeProjeto });
+        this.store.commit(ALTERA_PROJETO, { id: this.id, nome: this.nomeProjeto });
       } else {
         // Salvar o nome do projeto
-        this.store.commit("ADICIONA_PROJETO", this.nomeProjeto);
+        this.store.commit(ADICIONA_PROJETO, this.nomeProjeto);
       }
       this.nomeProjeto = "";
       this.$router.push("/projetos");
