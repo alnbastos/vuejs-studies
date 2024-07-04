@@ -41,7 +41,6 @@ export default defineComponent({
 
 <template>
   <section class="projetos">
-    <h1>Projetos</h1>
 
     <form @submit.prevent="salvar">
       <div class="field">
