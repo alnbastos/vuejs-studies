@@ -4,5 +4,5 @@ Bem-vindo ao repositório de estudos do Vue.js! Este repositório contém projet
 Cursos incluídos neste repositório:
 - [x] Vue 3: entendendo componentes, diretivas e reatividade no framework
 - [x] Vue3: explorando o framework
-- [ ] Vue3: avançando no framework
+- [x] Vue3: avançando no framework
 - [ ] Vue3: composition API e Vuex
