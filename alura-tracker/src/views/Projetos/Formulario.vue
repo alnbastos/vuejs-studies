@@ -3,14 +3,13 @@ import { defineComponent } from "vue";
 import { useStore } from "@/store";
 import { ALTERA_PROJETO, ADICIONA_PROJETO } from "@/store/type-mutations";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
-import { NotificarMixin } from "@/mixins/notificar";
+import { useNotificador } from "@/hooks/notificador";
 
 export default defineComponent({
   name: "FormularioProjetos",
   props: {
     id: { type: String }
   },
-  mixins: [NotificarMixin],
   mounted() {
     // Quando o componente estiver montado...
     if (this.id) {
@@ -25,7 +24,8 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    return { store }
+    const { notificar } = useNotificador();
+    return { store, notificar, }
   },
   methods: {
     salvar() {
@@ -36,7 +36,7 @@ export default defineComponent({
         // Salvar o nome do projeto
         this.store.commit(ADICIONA_PROJETO, this.nomeProjeto);
       }
-      // NotificarMixin
+      // useNotificador, Hook
       this.notificar(
         "Projeto adicionado!",
         "Prontinho 🫡 O projeto já está disponível.",
