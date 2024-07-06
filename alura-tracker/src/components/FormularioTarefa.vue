@@ -23,8 +23,10 @@
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { useStore } from "@/store";
+import { store, useStore } from "@/store";
 import TemporizadorTarefa from "./TemporizadorTarefa.vue";
+import { NOTIFICAR } from "@/store/type-mutations";
+import { TipoNotificacao } from "@/interfaces/INotificacao";
 
 export default defineComponent({
   // Nome do componente.
@@ -44,6 +46,16 @@ export default defineComponent({
   // Métodos do componente.
   methods: {
     finalizarTarefa(tempoDecorrido: number): void {
+      const projeto = this.projetos.find((p) => p.id == this.idProjeto);
+      if (!projeto) {
+        this.store.commit(NOTIFICAR, {
+          titulo: "Ops! 😟",
+          texto: "Selecione um projeto antes de finalizar a tarefa!",
+          tipo: TipoNotificacao.ERRO,
+        });
+        return;
+      }
+
       // tempoDecorrido é o valor this.temporizador 
       // emitido lá do componente TemporizadorTarefa.
       // tempoDecorrido pode ser qualquer nome de variavel,
@@ -59,7 +71,7 @@ export default defineComponent({
         // em salvarTarefa do App.vue.
         duracaoEmSegundos: tempoDecorrido,
         descricao: this.descricao,
-        projeto: this.idProjeto,
+        projeto: projeto.id,
       });
 
       this.descricao = "";
@@ -69,6 +81,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     return {
+      store,
       projetos: computed(() => store.state.projetos)
     }
   }
