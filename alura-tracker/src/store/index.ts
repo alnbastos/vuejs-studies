@@ -1,8 +1,8 @@
 import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUserStore } from "vuex";
 import IProjeto from "@/interfaces/IProjetos";
-import { INotificacao, TipoNotificacao } from "@/interfaces/INotificacao";
-import { ADICIONA_PROJETO, ALTERA_PROJETO, EXCLUI_PROJETO } from "./type-mutations";
+import { INotificacao } from "@/interfaces/INotificacao";
+import { ADICIONA_PROJETO, ALTERA_PROJETO, EXCLUI_PROJETO, NOTIFICAR } from "./type-mutations";
 
 interface Estado {
     projetos: IProjeto[],
@@ -14,26 +14,7 @@ export const key: InjectionKey<Store<Estado>> = Symbol();
 export const store = createStore<Estado>({
     state: {
         projetos: [],
-        notificacoes: [
-            {
-                id: 1,
-                tipo: TipoNotificacao.SUCESSO,
-                titulo: "Título para a notificação de sucesso!",
-                texto: "Texto para a notificação de sucesso!",
-            },
-            {
-                id: 2,
-                tipo: TipoNotificacao.ATENCAO,
-                titulo: "Título para a notificação de atencao!",
-                texto: "Texto para a notificação de atencao!",
-            },
-            {
-                id: 3,
-                tipo: TipoNotificacao.ERRO,
-                titulo: "Título para a notificação de erro!",
-                texto: "Texto para a notificação de erro!",
-            },
-        ]
+        notificacoes: [],
     },
     mutations: {
         [ADICIONA_PROJETO](state, nomeProjeto: string) {
@@ -49,7 +30,18 @@ export const store = createStore<Estado>({
         },
         [EXCLUI_PROJETO](state, id: string) {
             state.projetos = state.projetos.filter(proj => proj.id != id);
-        }
+        },
+        [NOTIFICAR](state, notificacao: INotificacao) {
+            notificacao.id = new Date().getTime();
+            state.notificacoes.push(notificacao);
+
+            setTimeout(()=>{
+                // Remove a notificação após 3 segundos.
+                state.notificacoes = state.notificacoes.filter(
+                    not => not.id != notificacao.id
+                );
+            }, 3000);
+        },
     },
 });
 
