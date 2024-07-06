@@ -25,8 +25,8 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store";
 import TemporizadorTarefa from "./TemporizadorTarefa.vue";
-import { NOTIFICAR } from "@/store/type-mutations";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
+import { NotificarMixin } from "@/mixins/notificar";
 
 export default defineComponent({
   // Nome do componente.
@@ -34,6 +34,9 @@ export default defineComponent({
 
   // Lista de emitir evento.
   emits: ["aoSalvarTarefa"],
+
+  // Lista de mixins.
+  mixins: [NotificarMixin],
 
   // Componentes filho.
   components: { TemporizadorTarefa },
@@ -48,11 +51,11 @@ export default defineComponent({
     finalizarTarefa(tempoDecorrido: number): void {
       const projeto = this.projetos.find((p) => p.id == this.idProjeto);
       if (!projeto) {
-        this.store.commit(NOTIFICAR, {
-          titulo: "Ops! 😟",
-          texto: "Selecione um projeto antes de finalizar a tarefa!",
-          tipo: TipoNotificacao.ERRO,
-        });
+        this.notificar(
+          "Ops! 😟",
+          "Selecione um projeto antes de finalizar a tarefa!",
+          TipoNotificacao.ERRO,
+        );
         return;
       }
 
