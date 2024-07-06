@@ -20,5 +20,10 @@ npm run build
 npm run lint
 ```
 
+### Run Vuejs DevTools
+```
+npx vue-devtools
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
