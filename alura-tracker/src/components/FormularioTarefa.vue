@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { store, useStore } from "@/store";
+import { useStore } from "@/store";
 import TemporizadorTarefa from "./TemporizadorTarefa.vue";
 import { NOTIFICAR } from "@/store/type-mutations";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
