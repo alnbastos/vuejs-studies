@@ -2,6 +2,7 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store";
 import { EXCLUI_PROJETO } from "@/store/type-mutations";
+import { OBTER_PROJETOS } from "@/store/type-actions";
 
 export default defineComponent({
   name: "ListaProjetos",
@@ -12,6 +13,8 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    store.dispatch(OBTER_PROJETOS);
+
     return {
       store,
       projetos: computed(() => store.state.projetos),

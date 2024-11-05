@@ -2,7 +2,9 @@ import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUserStore } from "vuex";
 import IProjeto from "@/interfaces/IProjetos";
 import { INotificacao } from "@/interfaces/INotificacao";
-import { ADICIONA_PROJETO, ALTERA_PROJETO, EXCLUI_PROJETO, NOTIFICAR } from "./type-mutations";
+import { ADICIONA_PROJETO, ALTERA_PROJETO, DEFINIR_PROJETOS, EXCLUI_PROJETO, NOTIFICAR } from "./type-mutations";
+import { OBTER_PROJETOS } from "./type-actions";
+import http from "@/http";
 
 interface Estado {
     projetos: IProjeto[],
@@ -31,6 +33,9 @@ export const store = createStore<Estado>({
         [EXCLUI_PROJETO](state, id: string) {
             state.projetos = state.projetos.filter(proj => proj.id != id);
         },
+        [DEFINIR_PROJETOS](state, projetos: IProjeto[]) {
+            state.projetos = projetos;
+        },
         [NOTIFICAR](state, notificacao: INotificacao) {
             notificacao.id = new Date().getTime();
             state.notificacoes.push(notificacao);
@@ -41,6 +46,12 @@ export const store = createStore<Estado>({
                     not => not.id != notificacao.id
                 );
             }, 3000);
+        },
+    },
+    actions: {
+        [OBTER_PROJETOS]({ commit }) {
+            http.get("projetos")
+                .then(resposta => commit(DEFINIR_PROJETOS, resposta.data));
         },
     },
 });
