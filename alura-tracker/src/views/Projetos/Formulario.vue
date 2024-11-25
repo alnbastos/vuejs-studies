@@ -1,9 +1,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store";
-import { ALTERA_PROJETO, ADICIONA_PROJETO } from "@/store/type-mutations";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
 import { useNotificador } from "@/hooks/notificador";
+import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from "@/store/type-actions";
 
 export default defineComponent({
   name: "FormularioProjetos",
@@ -31,11 +31,15 @@ export default defineComponent({
     salvar() {
       if (this.id) {
         // Editar o nome do projeto
-        this.store.commit(ALTERA_PROJETO, { id: this.id, nome: this.nomeProjeto });
+        this.store.dispatch(ALTERAR_PROJETO, { id: this.id, nome: this.nomeProjeto })
+          .then(() => this.lidarComSucesso());
       } else {
         // Salvar o nome do projeto
-        this.store.commit(ADICIONA_PROJETO, this.nomeProjeto);
+        this.store.dispatch(CADASTRAR_PROJETO, this.nomeProjeto)
+          .then(() => this.lidarComSucesso());
       }
+    },
+    lidarComSucesso() {
       // useNotificador, Hook
       this.notificar(
         "Projeto adicionado!",
@@ -63,7 +67,7 @@ export default defineComponent({
       </div>
     </form>
 
-</section>
+  </section>
 </template>
 
 <style scoped>

@@ -1,14 +1,13 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store";
-import { EXCLUI_PROJETO } from "@/store/type-mutations";
-import { OBTER_PROJETOS } from "@/store/type-actions";
+import { OBTER_PROJETOS, REMOVER_PROJETO } from "@/store/type-actions";
 
 export default defineComponent({
   name: "ListaProjetos",
   methods: {
     excluir(id: string) {
-      this.store.commit(EXCLUI_PROJETO, id);
+      this.store.dispatch(REMOVER_PROJETO, id);
     },
   },
   setup() {
