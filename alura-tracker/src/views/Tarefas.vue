@@ -1,9 +1,11 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import FormularioTarefa from "../components/FormularioTarefa.vue";
 import DescricaoTarefa from "../components/DescricaoTarefa.vue";
 import BoxListaTarefa from "../components/BoxListaTarefa.vue";
-import ITarefa from "../interfaces/ITarefa";
+// import ITarefa from "../interfaces/ITarefa";
+import { useStore } from "@/store";
+import { OBTER_TAREFAS } from "@/store/type-actions";
 
 export default defineComponent({
   // Nome do componente.
@@ -17,11 +19,11 @@ export default defineComponent({
   },
 
   // Estado do componente.
-  data() {
-    return {
-      tarefas: [] as ITarefa[],
-    }
-  },
+  // data() {
+  //   return {
+  //     tarefas: [] as ITarefa[],
+  //   }
+  // },
 
   // Propriedade computada.
   computed: {
@@ -32,11 +34,21 @@ export default defineComponent({
 
   // Métodos do componente.
   methods: {
-    salvarTarefa(tarefa: ITarefa) {
-      // inverte a lista, sendo a tarefa mais recente (a última a ser incluída)
-      // a primeira da lista.
-      this.tarefas.unshift(tarefa);
-    },
+    // salvarTarefa(tarefa: ITarefa) {
+    //   // inverte a lista, sendo a tarefa mais recente (a última a ser incluída)
+    //   // a primeira da lista.
+    //   this.tarefas.unshift(tarefa);
+    // },
+  },
+
+  setup() {
+    const store = useStore();
+    store.dispatch(OBTER_TAREFAS);
+
+    return {
+      store,
+      tarefas: computed(() => store.state.tarefas),
+    }
   },
 });
 </script>
