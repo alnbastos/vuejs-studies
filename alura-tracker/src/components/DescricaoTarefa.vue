@@ -1,6 +1,6 @@
 <template>
   <BoxListaTarefa>
-    <div class="columns">
+    <div class="columns clickable" @click="tarefaClicada">
       <div class="column is-4">
         {{ tarefa.descricao || "Tarefa sem descrição" }}
       </div>
@@ -25,7 +25,7 @@ import ITarefa from "@/interfaces/ITarefa";
 export default defineComponent({
   // Nome do componente.
   name: "DescricaoTarefa",
-
+  emits: ["aoTarefaClicada"],
   // Componentes filho.
   components: {
     CronometroTarefa,
@@ -42,7 +42,17 @@ export default defineComponent({
       required: true,
     }
   },
+  
+  methods: {
+    tarefaClicada() : void {
+      this.$emit("aoTarefaClicada", this.tarefa);
+    },
+  }
 });
 </script>
 
-<style></style>
+<style scoped>
+.clickable {
+  cursor: pointer;
+}
+</style>

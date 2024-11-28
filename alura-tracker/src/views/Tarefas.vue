@@ -19,11 +19,11 @@ export default defineComponent({
   },
 
   // Estado do componente.
-  // data() {
-  //   return {
-  //     tarefas: [] as ITarefa[],
-  //   }
-  // },
+  data() {
+    return {
+      tarefaSelecionada: null as ITarefa | null,
+    }
+  },
 
   // Propriedade computada.
   computed: {
@@ -40,6 +40,12 @@ export default defineComponent({
       // this.tarefas.unshift(tarefa);
       this.store.dispatch(CADASTRAR_TAREFA, tarefa);
     },
+    selecionarTarefa(tarefa: ITarefa) {
+      this.tarefaSelecionada = tarefa;
+    },
+    fecharModal() {
+      this.tarefaSelecionada = null;
+    }
   },
 
   setup() {
@@ -67,7 +73,8 @@ export default defineComponent({
       da tarefa no key.
       :tarefa é o prop de DescricaoTarefa, e "tarefa" é o item do array tarefas.
     -->
-    <DescricaoTarefa v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa" />
+    <DescricaoTarefa v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"
+      @aoTarefaClicada="selecionarTarefa" />
     <!--
       v-if, renderização condicional. Só renderiza o BoxListaTarefa se
       existeTarefa for igual a zero.
@@ -75,6 +82,26 @@ export default defineComponent({
     <BoxListaTarefa v-if="existeTarefa">
       Você não está produtivo hoje 😢
     </BoxListaTarefa>
+
+    <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Editar tarefa</p>
+          <button class="delete" aria-label="close" @click="fecharModal"></button>
+        </header>
+        <section class="modal-card-body">
+          <label for="descricaoTarefa" class="label">Descrição</label>
+          <input type="text" class="input" v-model="tarefaSelecionada.descricao" id="descricaoTarefa" />
+        </section>
+        <footer class="modal-card-foot">
+          <div class="buttons">
+            <button class="button is-success">Salvar</button>
+            <button class="button" @click="fecharModal">Cancelar</button>
+          </div>
+        </footer>
+      </div>
+    </div>
   </div>
 </template>
 
