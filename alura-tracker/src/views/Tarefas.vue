@@ -5,7 +5,7 @@ import DescricaoTarefa from "../components/DescricaoTarefa.vue";
 import BoxListaTarefa from "../components/BoxListaTarefa.vue";
 import ITarefa from "../interfaces/ITarefa";
 import { useStore } from "@/store";
-import { CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from "@/store/type-actions";
+import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from "@/store/type-actions";
 
 export default defineComponent({
   // Nome do componente.
@@ -45,7 +45,12 @@ export default defineComponent({
     },
     fecharModal() {
       this.tarefaSelecionada = null;
-    }
+    },
+    alterarTarefa() {
+      console.log(this.tarefaSelecionada)
+      this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada)
+        .then(() => this.fecharModal());
+    },
   },
 
   setup() {
@@ -96,8 +101,8 @@ export default defineComponent({
         </section>
         <footer class="modal-card-foot">
           <div class="buttons">
-            <button class="button is-success">Salvar</button>
-            <button class="button" @click="fecharModal">Cancelar</button>
+            <button @click="alterarTarefa" class="button is-success">Salvar</button>
+            <button @click="fecharModal" class="button">Cancelar</button>
           </div>
         </footer>
       </div>
