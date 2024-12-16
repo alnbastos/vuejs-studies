@@ -74,7 +74,7 @@ export default defineComponent({
         // em salvarTarefa do App.vue.
         duracaoEmSegundos: tempoDecorrido,
         descricao: this.descricao,
-        projeto: projeto.id,
+        projeto: this.projetos.find(proj => proj.id == this.idProjeto),
       });
 
       this.descricao = "";
@@ -85,7 +85,7 @@ export default defineComponent({
     const store = useStore();
     return {
       store,
-      projetos: computed(() => store.state.projetos)
+      projetos: computed(() => store.state.projeto.projetos)
     }
   }
 });

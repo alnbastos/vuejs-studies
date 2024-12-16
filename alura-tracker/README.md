@@ -25,5 +25,10 @@ npm run lint
 npx vue-devtools
 ```
 
+### Run Json Server
+```
+json-server --watch .\db.json
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

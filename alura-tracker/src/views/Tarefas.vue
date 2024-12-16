@@ -1,9 +1,11 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import FormularioTarefa from "../components/FormularioTarefa.vue";
 import DescricaoTarefa from "../components/DescricaoTarefa.vue";
 import BoxListaTarefa from "../components/BoxListaTarefa.vue";
 import ITarefa from "../interfaces/ITarefa";
+import { useStore } from "@/store";
+import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from "@/store/type-actions";
 
 export default defineComponent({
   // Nome do componente.
@@ -19,7 +21,7 @@ export default defineComponent({
   // Estado do componente.
   data() {
     return {
-      tarefas: [] as ITarefa[],
+      tarefaSelecionada: null as ITarefa | null,
     }
   },
 
@@ -35,8 +37,31 @@ export default defineComponent({
     salvarTarefa(tarefa: ITarefa) {
       // inverte a lista, sendo a tarefa mais recente (a última a ser incluída)
       // a primeira da lista.
-      this.tarefas.unshift(tarefa);
+      // this.tarefas.unshift(tarefa);
+      this.store.dispatch(CADASTRAR_TAREFA, tarefa);
     },
+    selecionarTarefa(tarefa: ITarefa) {
+      this.tarefaSelecionada = tarefa;
+    },
+    fecharModal() {
+      this.tarefaSelecionada = null;
+    },
+    alterarTarefa() {
+      console.log(this.tarefaSelecionada)
+      this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada)
+        .then(() => this.fecharModal());
+    },
+  },
+
+  setup() {
+    const store = useStore();
+    store.dispatch(OBTER_TAREFAS);
+    store.dispatch(OBTER_PROJETOS);
+
+    return {
+      store,
+      tarefas: computed(() => store.state.tarefas),
+    }
   },
 });
 </script>
@@ -53,7 +78,8 @@ export default defineComponent({
       da tarefa no key.
       :tarefa é o prop de DescricaoTarefa, e "tarefa" é o item do array tarefas.
     -->
-    <DescricaoTarefa v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa" />
+    <DescricaoTarefa v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"
+      @aoTarefaClicada="selecionarTarefa" />
     <!--
       v-if, renderização condicional. Só renderiza o BoxListaTarefa se
       existeTarefa for igual a zero.
@@ -61,6 +87,26 @@ export default defineComponent({
     <BoxListaTarefa v-if="existeTarefa">
       Você não está produtivo hoje 😢
     </BoxListaTarefa>
+
+    <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Editar tarefa</p>
+          <button class="delete" aria-label="close" @click="fecharModal"></button>
+        </header>
+        <section class="modal-card-body">
+          <label for="descricaoTarefa" class="label">Descrição</label>
+          <input type="text" class="input" v-model="tarefaSelecionada.descricao" id="descricaoTarefa" />
+        </section>
+        <footer class="modal-card-foot">
+          <div class="buttons">
+            <button @click="alterarTarefa" class="button is-success">Salvar</button>
+            <button @click="fecharModal" class="button">Cancelar</button>
+          </div>
+        </footer>
+      </div>
+    </div>
   </div>
 </template>
 

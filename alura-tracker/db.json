@@ -1,8 +1,37 @@
 {
-    "projetos": [
-        {
-            "id": 1,
-            "nome": "Alura Tracker"
-        }
-    ]
+  "projetos": [
+    {
+      "id": "1",
+      "nome": "Alura Tracker"
+    }
+  ],
+  "tarefas": [
+    {
+      "id": "1",
+      "duracaoEmSegundos": 120,
+      "descricao": "Configuração do ambiente",
+      "projeto": {
+        "id": "1",
+        "nome": "Alura Tracker"
+      }
+    },
+    {
+      "id": "992f",
+      "duracaoEmSegundos": 3,
+      "descricao": "Estudo estrutura de projetos",
+      "projeto": {
+        "id": "1",
+        "nome": "Alura Tracker"
+      }
+    },
+    {
+      "id": "4102",
+      "duracaoEmSegundos": 3,
+      "descricao": "Teste parte 1",
+      "projeto": {
+        "id": "1",
+        "nome": "Alura Tracker"
+      }
+    }
+  ]
 }
