@@ -13,7 +13,7 @@ export default defineComponent({
   mounted() {
     // Quando o componente estiver montado...
     if (this.id) {
-      const projeto = this.store.state.projetos.find(proj => proj.id == this.id);
+      const projeto = this.store.state.projeto.projetos.find(proj => proj.id == this.id);
       this.nomeProjeto = projeto?.nome || "";
     }
   },
