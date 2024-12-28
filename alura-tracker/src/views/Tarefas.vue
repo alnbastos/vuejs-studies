@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, watchEffect } from "vue";
 import FormularioTarefa from "../components/FormularioTarefa.vue";
 import DescricaoTarefa from "../components/DescricaoTarefa.vue";
 import BoxListaTarefa from "../components/BoxListaTarefa.vue";
@@ -59,16 +59,20 @@ export default defineComponent({
     store.dispatch(OBTER_PROJETOS);
 
     const filtro = ref("");
-    const tarefas = computed(() => 
-      store.state.tarefas.filter(
-        (t: ITarefa) => !filtro.value || t.descricao.includes(filtro.value)
-      )
-    );
-  
+    // const tarefas = computed(() => 
+    //   store.state.tarefa.filter(
+    //     (t: ITarefa) => !filtro.value || t.descricao.includes(filtro.value)
+    //   )
+    // );
+
+    watchEffect(() => {
+      store.dispatch(OBTER_TAREFAS, filtro.value);
+    });
+
     return {
       store,
-      tarefas,
       filtro,
+      tarefas: computed(() => store.state.tarefa.tarefas),
     }
   },
 });
