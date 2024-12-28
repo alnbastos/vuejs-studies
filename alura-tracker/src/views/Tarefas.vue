@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref, watchEffect } from "vue";
 import FormularioTarefa from "../components/FormularioTarefa.vue";
 import DescricaoTarefa from "../components/DescricaoTarefa.vue";
 import BoxListaTarefa from "../components/BoxListaTarefa.vue";
@@ -58,9 +58,21 @@ export default defineComponent({
     store.dispatch(OBTER_TAREFAS);
     store.dispatch(OBTER_PROJETOS);
 
+    const filtro = ref("");
+    // const tarefas = computed(() => 
+    //   store.state.tarefa.filter(
+    //     (t: ITarefa) => !filtro.value || t.descricao.includes(filtro.value)
+    //   )
+    // );
+
+    watchEffect(() => {
+      store.dispatch(OBTER_TAREFAS, filtro.value);
+    });
+
     return {
       store,
-      tarefas: computed(() => store.state.tarefas),
+      filtro,
+      tarefas: computed(() => store.state.tarefa.tarefas),
     }
   },
 });
@@ -68,7 +80,17 @@ export default defineComponent({
 
 <template>
   <FormularioTarefa @aoSalvarTarefa="salvarTarefa" />
+
   <div class="list">
+    <div class="field">
+      <p class="control has-icons-left">
+        <input class="input" type="text" placeholder="Digite para filtrar" v-model="filtro" />
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </p>
+    </div>
+
     <!--  
       v-for, é um for inline (para cada tarefa em tarefas). 
       para fazer uma iteração utilizando o v-for, é preciso linkar

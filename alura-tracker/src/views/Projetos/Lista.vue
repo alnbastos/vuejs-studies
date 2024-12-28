@@ -45,9 +45,9 @@ export default defineComponent({
           <td>{{ projeto.id }}</td>
           <td>{{ projeto.nome }}</td>
           <td>
-            <router-link :to="`/projetos/${projeto.id}`" class="button">
+            <router-link :to="`/projetos/${projeto.id}`" class="button is-warning">
               <span class="icon is-small">
-                <i class="fas fas-pencil-alt"></i>
+                <i class="fas fa-pen"></i>
               </span>
             </router-link>
             <button class="button ml-2 is-danger" @click="excluir(projeto.id)">

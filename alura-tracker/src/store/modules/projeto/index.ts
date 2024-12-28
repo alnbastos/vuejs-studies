@@ -1,6 +1,6 @@
 import http from "@/http";
 import IProjeto from "@/interfaces/IProjetos";
-import { Estado } from "@/store";
+import { Estado } from "../..";
 import { OBTER_PROJETOS, CADASTRAR_PROJETO, ALTERAR_PROJETO, REMOVER_PROJETO } from "@/store/type-actions";
 import { ADICIONA_PROJETO, ALTERA_PROJETO, EXCLUI_PROJETO, DEFINIR_PROJETOS } from "@/store/type-mutations";
 import { Module } from "vuex";
@@ -10,6 +10,9 @@ export interface EstadoProjeto {
 }
 
 export const moduloProjeto: Module<EstadoProjeto, Estado> = {
+    state: {
+        projetos: [],
+    },
     mutations: {
         [ADICIONA_PROJETO](state, nomeProjeto: string) {
             const projeto: IProjeto = {
