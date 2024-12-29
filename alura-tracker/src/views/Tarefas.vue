@@ -3,6 +3,7 @@ import { computed, defineComponent, ref, watchEffect } from "vue";
 import FormularioTarefa from "../components/FormularioTarefa.vue";
 import DescricaoTarefa from "../components/DescricaoTarefa.vue";
 import BoxListaTarefa from "../components/BoxListaTarefa.vue";
+import ModalBox from "@/components/Modal.vue";
 import ITarefa from "../interfaces/ITarefa";
 import { useStore } from "@/store";
 import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from "@/store/type-actions";
@@ -16,6 +17,7 @@ export default defineComponent({
     FormularioTarefa,
     DescricaoTarefa,
     BoxListaTarefa,
+    ModalBox,
   },
 
   // Estado do componente.
@@ -110,25 +112,22 @@ export default defineComponent({
       Você não está produtivo hoje 😢
     </BoxListaTarefa>
 
-    <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Editar tarefa</p>
-          <button class="delete" aria-label="close" @click="fecharModal"></button>
-        </header>
-        <section class="modal-card-body">
-          <label for="descricaoTarefa" class="label">Descrição</label>
-          <input type="text" class="input" v-model="tarefaSelecionada.descricao" id="descricaoTarefa" />
-        </section>
-        <footer class="modal-card-foot">
-          <div class="buttons">
-            <button @click="alterarTarefa" class="button is-success">Salvar</button>
-            <button @click="fecharModal" class="button">Cancelar</button>
-          </div>
-        </footer>
-      </div>
-    </div>
+    <ModalBox :mostrar="tarefaSelecionada != null">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Editar tarefa</p>
+        <button class="delete" aria-label="close" @click="fecharModal"></button>
+      </header>
+      <section class="modal-card-body">
+        <label for="descricaoTarefa" class="label">Descrição</label>
+        <input type="text" class="input" v-model="tarefaSelecionada.descricao" id="descricaoTarefa" />
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button @click="alterarTarefa" class="button is-success">Salvar</button>
+          <button @click="fecharModal" class="button">Cancelar</button>
+        </div>
+      </footer>
+    </ModalBox>
   </div>
 </template>
 
