@@ -5,4 +5,4 @@ Cursos incluídos neste repositório:
 - [x] Vue 3: entendendo componentes, diretivas e reatividade no framework
 - [x] Vue3: explorando o framework
 - [x] Vue3: avançando no framework
-- [ ] Vue3: composition API e Vuex
+- [x] Vue3: composition API e Vuex
