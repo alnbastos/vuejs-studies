@@ -113,20 +113,20 @@ export default defineComponent({
     </BoxListaTarefa>
 
     <ModalBox :mostrar="tarefaSelecionada != null">
-      <header class="modal-card-head">
+      <template v-slot:cabecalho>
         <p class="modal-card-title">Editar tarefa</p>
         <button class="delete" aria-label="close" @click="fecharModal"></button>
-      </header>
-      <section class="modal-card-body">
+      </template>
+      <template v-slot:corpo>
         <label for="descricaoTarefa" class="label">Descrição</label>
         <input type="text" class="input" v-model="tarefaSelecionada.descricao" id="descricaoTarefa" />
-      </section>
-      <footer class="modal-card-foot">
+      </template>
+      <template v-slot:rodape>
         <div class="buttons">
           <button @click="alterarTarefa" class="button is-success">Salvar</button>
           <button @click="fecharModal" class="button">Cancelar</button>
         </div>
-      </footer>
+      </template>
     </ModalBox>
   </div>
 </template>
